@@ -7,7 +7,6 @@ import MapContainer from '@/components/mapContainer.vue';
 import ImageDialog from '@/components/ImageDialog.vue';
 import EagleEye from '@/components/EagleEye.vue';
 import { publishApi } from '@/api/publish.js';// 发布接口
-import { strToArray } from '@/utils/commonFunc.js';
 
 
 
