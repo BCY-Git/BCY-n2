@@ -6,7 +6,7 @@ import { Search } from '@element-plus/icons-vue';
 import MyMap from "@/components/map/mymap.vue"
 
 
-import { publishApi } from '@/api/publish';
+import { publishApi } from '@/api/thinking.js';
 const list = ref([]);
 const searchKey = ref('');
 import { ElMessage, ElMessageBox } from 'element-plus';
