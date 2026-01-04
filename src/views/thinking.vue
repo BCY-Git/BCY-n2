@@ -21,6 +21,7 @@ const mapDialogVisible = ref(false);
 const normalizeText = (text) => {
     if (!text) return '';
 
+
     return text
         .trim()
         .replace(/\r\n/g, '\n') // 统一换行符
