@@ -3,6 +3,8 @@ import axios from 'axios';
 import { ref, computed, watch, nextTick } from 'vue';
 import { terrainMap, typeMap, weatherMap, seaStateMap } from '@/utils/dict';
 import { Search } from '@element-plus/icons-vue';
+import MyMap from "@/components/map/mymap.vue"
+
 
 import { publishApi } from '@/api/publish';
 const list = ref([]);
@@ -594,38 +596,7 @@ const closeMapDialog = () => {
             展开
         </div>
         <div class="thinking-main">
-            <!-- 地图选择对话框 -->
-            <el-dialog v-model="mapDialogVisible" title="选择场景和位置" :width="900" :close-on-click-modal="false"
-                @close="closeMapDialog" class="map-dialog">
-                <div class="map-container-wrapper">
-                    <div id="task-map" class="task-map"></div>
-                    <!-- 场景选择图片覆盖层（嵌入在地图上） -->
-                    <div v-if="showSceneSelection" class="scene-selection-overlay">
-                        <div class="scene-selection-title">请选择场景</div>
-                        <div class="scene-items">
-                            <div class="scene-item" @click="selectScene(1)">
-                                <div class="scene-image">场景1</div>
-                                <div class="scene-label">场景一</div>
-                            </div>
-                            <div class="scene-item" @click="selectScene(2)">
-                                <div class="scene-image">场景2</div>
-                                <div class="scene-label">场景二</div>
-                            </div>
-                            <div class="scene-item" @click="selectScene(3)">
-                                <div class="scene-image">场景3</div>
-                                <div class="scene-label">场景三</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <template #footer>
-                    <div class="dialog-footer">
-                        <el-button @click="closeMapDialog">取消</el-button>
-                        <el-button type="primary" @click="confirmMapSelection">确定</el-button>
-                    </div>
-                </template>
-            </el-dialog>
-
+            <my-map ></my-map>
             <!-- 自定义对话框 -->
             <div v-if="dialogVisible" class="custom-dialog-overlay">
                 <div class="custom-dialog">
