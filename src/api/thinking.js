@@ -1,7 +1,7 @@
 
 import { fetchGet, fetchPost, fetchPut, fetchDelete, fetchGetPatch, fetchPatch } from '@/utils/http';
 
-export const publishApi={
+export const thinkingApi={
   getPublish(){
     return fetchGet('/api/drillingOnlineStatus');
   },

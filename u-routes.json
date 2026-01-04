@@ -11,5 +11,6 @@
     "/template/task/:id": "/template/:id",
     "/task/listNoPage?*": "/task",
     "/task/drill/listNoPage": "/task_drillListNoPage",
+    "/task/drill/listNoPage/:id": "/task_drillListNoPage/:id",
     "/task/:id": "/task_drillListNoPage/:id"
 }

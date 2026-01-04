@@ -6,7 +6,7 @@ import { Search } from '@element-plus/icons-vue';
 import MyMap from "@/components/map/mymap.vue"
 
 
-import { publishApi } from '@/api/thinking.js';
+import { thinkingApi } from '@/api/thinking.js';
 const list = ref([]);
 const searchKey = ref('');
 import { ElMessage, ElMessageBox } from 'element-plus';
@@ -192,9 +192,9 @@ const handleSave = async () => {
         // 区分新增和编辑
         if (isEditMode.value) {
             //  这里一定要加 await ，不然会导致异步问题
-            await publishApi.updateTask(updateData);
+            await thinkingApi.updateTask(updateData);
         } else {
-            const created = await publishApi.addTask(updateData);
+            const created = await thinkingApi.addTask(updateData);
             ElMessage.success('成功添加');
             getTaskList();
         }
@@ -320,7 +320,7 @@ const getTypeList = (typeStr) => {
 }
 
 const getTaskList = async () => {
-    publishApi.getTaskList().then(res => {
+    thinkingApi.getTaskList().then(res => {
         console.log("获取的列表", res.data);
         list.value = res.data;
         console.log(res.data);
@@ -379,62 +379,7 @@ const toggleSidebar = () => {
 }
 
 // 初始化地图
-const initMap = () => {
-    if (!window.L) {
-        console.error('Leaflet 未加载');
-        ElMessage.error('地图库加载失败，请刷新页面重试');
-        return;
-    }
 
-    const mapContainer = document.getElementById('task-map');
-    if (!mapContainer) {
-        console.error('地图容器不存在');
-        return;
-    }
-
-    // 如果地图已存在，先移除
-    if (mapInstance.value) {
-        mapInstance.value.remove();
-        mapInstance.value = null;
-    }
-
-    setTimeout(() => {
-        const container = document.getElementById('task-map');
-        if (!container) {
-            console.error('地图容器不存在');
-            return;
-        }
-
-        // 创建地图
-        mapInstance.value = window.L.map('task-map', {
-            center: [35.0, 105.0],
-            zoom: 5,
-            minZoom: 4,
-            maxZoom: 18,
-            maxBounds: [
-                [18, 73],
-                [54, 135]
-            ],
-            zoomAnimation: false,
-            fadeAnimation: false
-        });
-
-        // 添加瓦片图层
-        window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-            maxZoom: 19,
-            subdomains: ['a', 'b', 'c']
-        }).addTo(mapInstance.value);
-
-        // 等待地图完全初始化
-        mapInstance.value.whenReady(() => {
-            // 只有选择了场景后才允许点击地图选择位置
-            if (!showSceneSelection.value) {
-                enableMapClick();
-            }
-        });
-    }, 100);
-}
 
 // 选择场景
 const selectScene = (sceneId) => {

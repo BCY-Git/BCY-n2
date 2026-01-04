@@ -6,6 +6,11 @@ import { terrainMap, typeMap, weatherMap, seaStateMap } from '@/utils/dict';
 import MapContainer from '@/components/mapContainer.vue';
 import ImageDialog from '@/components/ImageDialog.vue';
 import EagleEye from '@/components/EagleEye.vue';
+import { publishApi } from '@/api/publish.js';// 发布接口
+import { strToArray } from '@/utils/commonFunc.js';
+
+
+
 const mapContainerRef = ref(null);
 const list = ref([]);
 const mockData = ref([]);
@@ -37,95 +42,6 @@ const isEditMode = computed(() => {
     // 只有当 id 存在且不是空字符串时，才是编辑模式
     return id !== undefined && id !== null && id !== '';
 });
-
-
-const taskList = ref([
-    {
-        id: '1',
-        altitude: '任务1',
-        cameraStatus: 0,
-        communicationStatus: 0,
-        deviceName: '任务1',
-        equipmentStatus: 0,
-        gimbalStatus: 0,
-        latitude: 0,
-        longitude: 0,
-        pitch: 0,
-        roll: 0,
-        yaw: 0,
-        servoStatus: 0,
-        speed: 0,
-    },
-    [
-  {
-    id: '2',
-    altitude: '任务2',
-    cameraStatus: 1,
-    communicationStatus: 0,
-    deviceName: '任务2',
-    equipmentStatus: 1,
-    gimbalStatus: 1,
-    latitude: 31.2304,
-    longitude: 121.4737,
-    pitch: -2.3,
-    roll: 0.8,
-    yaw: 135.6,
-    servoStatus: 1,
-    speed: 12.5,
-  },
-  {
-    id: '3',
-    altitude: '任务3',
-    cameraStatus: 0,
-    communicationStatus: 1,
-    deviceName: '任务3',
-    equipmentStatus: 0,
-    gimbalStatus: 1,
-    latitude: 39.9042,
-    longitude: 116.4074,
-    pitch: 1.2,
-    roll: -1.5,
-    yaw: 220.3,
-    servoStatus: 0,
-    speed: 8.9,
-  },
-  {
-    id: '4',
-    altitude: '任务4',
-    cameraStatus: 1,
-    communicationStatus: 1,
-    deviceName: '任务4',
-    equipmentStatus: 1,
-    gimbalStatus: 0,
-    latitude: 23.1291,
-    longitude: 113.2644,
-    pitch: -0.6,
-    roll: 0.2,
-    yaw: 78.4,
-    servoStatus: 1,
-    speed: 15.2,
-  },
-  {
-    id: '5',
-    altitude: '任务5',
-    cameraStatus: 0,
-    communicationStatus: 0,
-    deviceName: '任务5',
-    equipmentStatus: 1,
-    gimbalStatus: 1,
-    latitude: 30.5728,
-    longitude: 104.0668,
-    pitch: 3.1,
-    roll: -0.9,
-    yaw: 310.7,
-    servoStatus: 0,
-    speed: 6.4,
-  }
-]
-
-]);
-
-
 const getMockData = async () => {
     try {
         const res = await axios.get('/api/drillingOnlineStatus');
@@ -141,26 +57,21 @@ getMockData();
 
 const getTaskList = async () => {
     try {
-        const res = await axios.get('/api/task/drill/listNoPage');
-        console.log(res.data);                                  
+        const res = await publishApi.getTaskList();
+        console.log('获取的任务列表:', res.data);
         const raw = res.data.data || res.data;
         // 映射 terrain 和 type 用于显示，同时添加用于编辑的数组格式
         list.value = raw.map(item => {
-            // 处理 type 和 equipment 转换为数组格式用于编辑
-            const typeArray = item.type && item.type !== 'null'
-                ? (typeof item.type === 'string' ? item.type.split(',').map(t => t.trim()) : [item.type])
-                : [];
-            const equipmentArray = item.equipment && item.equipment !== 'null'
-                ? (typeof item.equipment === 'string' ? item.equipment.split(',').map(e => e.trim()) : [item.equipment])
-                : [];
+            const typeArray = strToArray(item.type);
+            const equipmentArray = strToArray(item.equipment);
             return {
                 ...item,
-                terrainDisplay: terrainMap[item.terrain] || item.terrain, // 显示用的映射值
-                typeList: getTypeList(item.type), // 将 type 转换为数组用于显示
-                typeArray, // 用于编辑的数组格式
-                equipmentArray // 用于编辑的数组格式
+                terrainDisplay: terrainMap[item.terrain] || item.terrain,
+                typeList: getTypeList(item.type),
+                typeArray,
+                equipmentArray
             };
-        })
+        });
     } catch (error) {
         console.warn('获取任务列表失败:', error.message);
         // 保持 list.value 为空数组
@@ -169,23 +80,13 @@ const getTaskList = async () => {
 }
 getTaskList();
 const handlePublish = async (id) => {
-    // 从列表中查找对应的项
     const taskItem = list.value.find(item => item.id === id);
     if (!taskItem) return;
-
     try {
-        if (taskItem.status == 0) {
-            await axios.patch(`/api/task/${id}`, {
-                status: '1'
-            });
-        } else {
-            await axios.patch(`/api/task/${id}`, {
-                status: '0'
-            });
-        }
-
-        // 更新后刷新列表
-        await getTaskList();
+        // 精简写法：三元表达式替代if/else，逻辑不变
+        const targetStatus = taskItem.publishStatus === 0 ? '0' : '1';
+        await publishApi.updataStatus({ id, publishStatus: targetStatus });
+        await getTaskList(); // 刷新列表
     } catch (error) {
         console.error('发布任务失败:', error.message);
     }
@@ -194,9 +95,9 @@ const handlePublish = async (id) => {
 const startTask = async (id, taskId) => {
     try {
         const res = await axios.patch("/api/drill/updateDrillStatus", {
-            id: id ,
+            id: id,
             taskId: taskId,
-            status: "1" 
+            status: "1"
         });
         console.log(res.data);
         getTaskList();
@@ -207,9 +108,9 @@ const startTask = async (id, taskId) => {
 
 const getStatus = async () => {
     try {
-        const res = await axios.get('/api/drill');
-        console.log(res.data);
-        return res.data;
+        const res = await fetchGet('/drill');
+        console.log(res);
+        return res;
     } catch (error) {
         console.warn('获取状态失败:', error.message);
         return null;
@@ -348,7 +249,7 @@ const formatDistance = (distance) => {
 const clearMeasure = () => {
     const L = window.L;
     if (!L) return;
-    
+
     if (measureLine.value) {
         measureLine.value.remove();
         measureLine.value = null;
@@ -368,7 +269,7 @@ const clearMeasure = () => {
 const toggleMeasure = () => {
     isMeasuring.value = !isMeasuring.value;
     console.log('测量模式:', isMeasuring.value ? '开启' : '关闭');
-    
+
     // 确保地图实例存在
     const map = getMapInstance();
     if (!map) {
@@ -379,7 +280,7 @@ const toggleMeasure = () => {
         }, 500);
         return;
     }
-    
+
     if (!isMeasuring.value) {
         // 退出测量模式，清除测量结果
         clearMeasure();
@@ -409,32 +310,32 @@ const initMeasure = () => {
         console.warn('Leaflet 未加载');
         return;
     }
-    
+
     const map = getMapInstance();
     if (!map) {
         console.warn('地图实例未找到');
         return;
     }
-    
+
     // 如果已经绑定过事件，先移除
     if (mapClickHandler) {
         map.off('click', mapClickHandler);
     }
-    
+
     // 绑定地图点击事件
     mapClickHandler = (e) => {
         if (!isMeasuring.value) return;
-        
+
         const latlng = e.latlng;
         console.log('测量模式：点击了地图', latlng);
-        
+
         // 如果已经有完整的测量结果（两个点），点击新点时清除之前的测量
         if (measurePoints.value.length === 0 && (measureLine.value || measureMarkers.value.length > 0)) {
             clearMeasure();
         }
-        
+
         measurePoints.value.push(latlng);
-        
+
         // 添加标记点
         const marker = L.marker(latlng, {
             icon: L.divIcon({
@@ -445,7 +346,7 @@ const initMeasure = () => {
             })
         }).addTo(map);
         measureMarkers.value.push(marker);
-        
+
         // 如果有两个点，绘制直线并显示距离
         if (measurePoints.value.length === 2) {
             // 清除之前的直线和标签（如果存在）
@@ -455,7 +356,7 @@ const initMeasure = () => {
             if (measureLabel.value) {
                 measureLabel.value.remove();
             }
-            
+
             // 绘制直线
             const point1 = measurePoints.value[0];
             const point2 = measurePoints.value[1];
@@ -464,13 +365,13 @@ const initMeasure = () => {
                 weight: 2,
                 opacity: 0.8
             }).addTo(map);
-            
+
             // 计算距离
             const distance = calculateDistance(
                 point1.lat, point1.lng,
                 point2.lat, point2.lng
             );
-            
+
             // 在中间位置显示距离标签
             const midLat = (point1.lat + point2.lat) / 2;
             const midLng = (point1.lng + point2.lng) / 2;
@@ -483,13 +384,13 @@ const initMeasure = () => {
                 }),
                 zIndexOffset: 1000
             }).addTo(map);
-            
+
             // 重置测量点数组，但保留标记以便查看
             // 下次点击时会清除所有测量结果并开始新的测量
             measurePoints.value = [];
         }
     };
-    
+
     map.on('click', mapClickHandler);
     console.log('测量功能初始化完成');
 }
@@ -552,7 +453,7 @@ onMounted(() => {
                     <p style="line-height: 30px; width: 100px;">海况:{{ seaStateMap[item.seaState] || item.seaState }}</p>
                 </div>
                 <p style="line-height: 30px;margin-bottom: 10px;color: white;">时段:{{ item.startTime }} - {{ item.endTime
-                }}</p>
+                    }}</p>
                 <div class="thinking-aside-task-list-item">
                     <p style="color: white;">任务:</p>
                     <div class="thinking-aside-task-list-item-content">
@@ -562,15 +463,14 @@ onMounted(() => {
                     </div>
                 </div>
                 <div class="btn-group">
-                    <el-button type="primary" @click="handlePublish(item.id)" :disabled="item.status == 1">{{
-                        item.status == 0 ?
+                    <el-button type="primary" @click="handlePublish(item.id)" :disabled="item.publishStatus != 0">{{
+                        item.publishStatus == 0 ?
                             '发布' : '已发布' }}</el-button>
-                    <el-button type="primary" @click="startTask(item.id)">{{ item.status == 1 ? '开始' : item.status == 2
-                        ? '暂停' :
-                        item.status == 3 ?
-                        '结束' :
-                        '暂停' }}</el-button>
-                    <el-button type="primary" @click="getStatus">结束</el-button>
+                    <el-button v-show="item.publishStatus != 0" type="primary" @click="startTask(item.id)" :disabled="item.dirllStatus == 3">
+                        {{ item.dirllStatus == 1 ? '开始' : item.dirllStatus == 2 ? '暂停' : item.dirllStatus == 3 ? '结束' : '暂停'
+                        }}
+                    </el-button>
+                    <el-button v-show="item.publishStatus == 1" type="primary" @click="getStatus">结束</el-button>
                 </div>
             </div>
         </div>
@@ -578,7 +478,7 @@ onMounted(() => {
         <div v-if="isSidebarCollapsed" class="expand-btn" @click="toggleSidebar">
             展开
         </div>
-        
+
         <!-- 左侧悬浮按钮组 -->
         <div class="left-floating-buttons">
             <div class="left-floating-btn" @click="openDialog(6)">
@@ -591,7 +491,7 @@ onMounted(() => {
                 按钮8
             </div>
         </div>
-        
+
         <div class="thinking-main">
 
         </div>
@@ -693,7 +593,8 @@ onMounted(() => {
         </div>
 
         <!-- 弹窗2 -->
-        <div style="position: absolute; top: 50px;right: 40px;z-index: 2000;" v-if="dialogVisible2" @click.self="closeDialog(2)">
+        <div style="position: absolute; top: 50px;right: 40px;z-index: 2000;" v-if="dialogVisible2"
+            @click.self="closeDialog(2)">
             <div class="custom-dialog-2">
                 <div class="dialog-header">
                     <h3 class="dialog-title">数据监控</h3>
@@ -713,7 +614,8 @@ onMounted(() => {
         </div>
 
         <!-- 弹窗3 -->
-        <div style="position: absolute; top: 50px;right: 40px;z-index: 2000;" v-if="dialogVisible3" @click.self="closeDialog(3)">
+        <div style="position: absolute; top: 50px;right: 40px;z-index: 2000;" v-if="dialogVisible3"
+            @click.self="closeDialog(3)">
             <div class="custom-dialog-3">
                 <div class="dialog-header">
                     <h3 class="dialog-title">零机干预</h3>
@@ -736,7 +638,8 @@ onMounted(() => {
         </div>
 
         <!-- 弹窗4 -->
-        <div style="position: absolute; top: 50px;right: 40px;z-index: 2000;" v-if="dialogVisible4" @click.self="closeDialog(4)">
+        <div style="position: absolute; top: 50px;right: 40px;z-index: 2000;" v-if="dialogVisible4"
+            @click.self="closeDialog(4)">
             <div class="custom-dialog-4">
                 <div class="dialog-header">
                     <h3 class="dialog-title">TQ下发</h3>
@@ -773,7 +676,8 @@ onMounted(() => {
         </div>
 
         <!-- 弹窗5 -->
-        <div style="position: absolute; top: 50px;right: 40px;z-index: 2000;" v-if="dialogVisible5" @click.self="closeDialog(5)">
+        <div style="position: absolute; top: 50px;right: 40px;z-index: 2000;" v-if="dialogVisible5"
+            @click.self="closeDialog(5)">
             <div class="custom-dialog-5">
                 <div class="dialog-header">
                     <h3 class="dialog-title">任务列表</h3>
@@ -784,32 +688,38 @@ onMounted(() => {
                         <el-table-column prop="deviceName" label="装备名称" width="120" />
                         <el-table-column prop="longitude" label="经度" width="120">
                             <template #default="scope">
-                                {{ scope.row.longitude != null && scope.row.longitude !== '' ? Number(scope.row.longitude).toFixed(6) : '' }}
+                                {{ scope.row.longitude != null && scope.row.longitude !== '' ?
+                                    Number(scope.row.longitude).toFixed(6) : '' }}
                             </template>
                         </el-table-column>
                         <el-table-column prop="latitude" label="纬度" width="120">
                             <template #default="scope">
-                                {{ scope.row.latitude != null && scope.row.latitude !== '' ? Number(scope.row.latitude).toFixed(6) : '' }}
+                                {{ scope.row.latitude != null && scope.row.latitude !== '' ?
+                                    Number(scope.row.latitude).toFixed(6) : '' }}
                             </template>
                         </el-table-column>
                         <el-table-column prop="speed" label="速度" width="100">
                             <template #default="scope">
-                                {{ scope.row.speed != null && scope.row.speed !== '' ? Number(scope.row.speed).toFixed(6) : '' }}
+                                {{ scope.row.speed != null && scope.row.speed !== '' ?
+                                    Number(scope.row.speed).toFixed(6) : '' }}
                             </template>
                         </el-table-column>
                         <el-table-column prop="pitch" label="俯仰" width="100">
                             <template #default="scope">
-                                {{ scope.row.pitch != null && scope.row.pitch !== '' ? Number(scope.row.pitch).toFixed(6) : '' }}
+                                {{ scope.row.pitch != null && scope.row.pitch !== '' ?
+                                    Number(scope.row.pitch).toFixed(6) : '' }}
                             </template>
                         </el-table-column>
                         <el-table-column prop="roll" label="滚转" width="100">
                             <template #default="scope">
-                                {{ scope.row.roll != null && scope.row.roll !== '' ? Number(scope.row.roll).toFixed(6) : '' }}
+                                {{ scope.row.roll != null && scope.row.roll !== '' ? Number(scope.row.roll).toFixed(6) :
+                                    '' }}
                             </template>
                         </el-table-column>
                         <el-table-column prop="yaw" label="偏航" width="100">
                             <template #default="scope">
-                                {{ scope.row.yaw != null && scope.row.yaw !== '' ? Number(scope.row.yaw).toFixed(6) : '' }}
+                                {{ scope.row.yaw != null && scope.row.yaw !== '' ? Number(scope.row.yaw).toFixed(6) : ''
+                                }}
                             </template>
                         </el-table-column>
                         <el-table-column prop="communicationStatus" label="通信" width="100">
@@ -853,41 +763,23 @@ onMounted(() => {
         </div>
 
         <!-- 弹窗6 -->
-        <ImageDialog 
-            v-model:visible="dialogVisible6" 
-            :image-src="imageSrc6" 
-            title="图片展示6" 
-        />
+        <ImageDialog v-model:visible="dialogVisible6" :image-src="imageSrc6" title="图片展示6" />
 
         <!-- 弹窗7 -->
-        <ImageDialog 
-            v-model:visible="dialogVisible7" 
-            :image-src="imageSrc7" 
-            title="图片展示7" 
-        />
+        <ImageDialog v-model:visible="dialogVisible7" :image-src="imageSrc7" title="图片展示7" />
 
         <!-- 弹窗8 -->
-        <ImageDialog 
-            v-model:visible="dialogVisible8" 
-            :image-src="imageSrc8" 
-            title="图片展示8" 
-        />
+        <ImageDialog v-model:visible="dialogVisible8" :image-src="imageSrc8" title="图片展示8" />
 
         <!-- 鹰眼图 -->
-        <EagleEye 
-            v-model:visible="eagleEyeVisible"
-            :map-instance="mapContainerRef"
-        />
-        
+        <EagleEye v-model:visible="eagleEyeVisible" :map-instance="mapContainerRef" />
+
         <!-- 右下角地图工具按钮组 -->
         <div class="map-tools">
-            <div 
-                class="map-tool-btn" 
-                :class="{ 'active': isMeasuring }"
-                @click="toggleMeasure"
-                :title="isMeasuring ? '点击退出测量模式' : '点击开始测量距离'"
-            >
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <div class="map-tool-btn" :class="{ 'active': isMeasuring }" @click="toggleMeasure"
+                :title="isMeasuring ? '点击退出测量模式' : '点击开始测量距离'">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="5" cy="5" r="2"></circle>
                     <circle cx="19" cy="19" r="2"></circle>
                     <line x1="5" y1="5" x2="19" y2="19"></line>
@@ -895,7 +787,7 @@ onMounted(() => {
                 <span>测量</span>
             </div>
         </div>
-        
+
         <!-- 测量模式提示 -->
         <div v-if="isMeasuring" class="measure-tip">
             <div class="measure-tip-content">
@@ -914,6 +806,7 @@ $theme-border-color: rgb(82, 103, 156);
 $theme-scrollbar-color: rgb(65, 126, 242);
 
 .thinking-container {
+
     // 滚动条样式（适用于容器内所有滚动元素）
     * {
         &::-webkit-scrollbar {
@@ -969,9 +862,9 @@ $theme-scrollbar-color: rgb(65, 126, 242);
     position: relative;
     z-index: 10; // 主内容区在地图上方
     pointer-events: none; // 允许鼠标事件穿透到地图
-    
+
     // 如果主内容区有子元素需要交互，需要单独设置
-    > * {
+    >* {
         pointer-events: auto;
     }
 }
@@ -1366,33 +1259,33 @@ $theme-scrollbar-color: rgb(65, 126, 242);
 :deep(.el-table) {
     background-color: $theme-bg-color;
     color: $theme-text-color;
-    
+
     .el-table__header {
         background-color: rgb(26, 49, 116);
-        
+
         th {
             background-color: rgb(26, 49, 116) !important;
             color: $theme-text-color !important;
             border-color: $theme-border-color !important;
         }
     }
-    
+
     .el-table__body {
         tr {
             background-color: $theme-bg-color;
-            
+
             &:hover {
                 background-color: rgb(26, 49, 116) !important;
             }
         }
-        
+
         td {
             background-color: $theme-bg-color !important;
             color: $theme-text-color !important;
             border-color: $theme-border-color !important;
         }
     }
-    
+
     .el-table__border {
         border-color: $theme-border-color;
     }
@@ -1500,30 +1393,30 @@ $theme-scrollbar-color: rgb(65, 126, 242);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     transition: all 0.3s ease;
     gap: 4px;
-    
+
     svg {
         width: 20px;
         height: 20px;
     }
-    
+
     span {
         font-size: 12px;
     }
-    
+
     &:hover {
         background-color: lighten($theme-button-color, 10%);
         transform: translateY(-2px);
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
     }
-    
+
     &:active {
         transform: translateY(0);
     }
-    
+
     &.active {
         background-color: #67c23a;
         border-color: #67c23a;
-        
+
         &:hover {
             background-color: lighten(#67c23a, 10%);
         }
@@ -1549,7 +1442,7 @@ $theme-scrollbar-color: rgb(65, 126, 242);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
     text-align: center;
     animation: fadeIn 0.3s ease;
-    
+
     p {
         margin: 0;
         color: #67c23a;
