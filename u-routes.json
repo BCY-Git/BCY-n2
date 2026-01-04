@@ -1,0 +1,15 @@
+{
+  "/surroundings/add": "/surroundings_listNoPage",
+  "/surroundings/listNoPage": "/surroundings_listNoPage",
+  "/surroundings/listNoPage?*": "/surroundings_listNoPage",
+  "/surroundings/listNoPage/:id": "/surroundings_listNoPage/:id",
+  
+
+    "/task/listNoPage": "/task",
+    "/task/add": "/task",
+    "/task/update/:id": "/task/:id",
+    "/template/task/:id": "/template/:id",
+    "/task/listNoPage?*": "/task",
+    "/task/drill/listNoPage": "/task_drillListNoPage",
+    "/task/:id": "/task_drillListNoPage/:id"
+}

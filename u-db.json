@@ -1,0 +1,475 @@
+{
+  "surroundings_listNoPage": [
+    {
+      "id": "24",
+      "surroundingsName": "山地",
+      "isTemplateData": "0",
+      "terrain": "2",
+      "weather": "3",
+      "seaState": "2",
+      "flow": 4
+    },
+    {
+      "id": "3",
+      "surroundingsName": "山地",
+      "isTemplateData": "0",
+      "terrain": "2",
+      "weather": "3",
+      "seaState": "2",
+      "flow": 4
+    },
+    {
+      "id": "7",
+      "surroundingsName": "山地",
+      "isTemplateData": "0",
+      "terrain": "2",
+      "weather": "3",
+      "seaState": "2",
+      "flow": 4
+    },
+    {
+      "terrain": "2",
+      "area": "[{\"经度\":\"113.137207\",\"纬度\":\"35.033370\"}]",
+      "id": "k83xhnG"
+    },
+    {
+      "terrain": "2",
+      "area": "[{\"经度\":\"113.884277\",\"纬度\":\"30.565808\"}]",
+      "id": "1DX__vo"
+    },
+    {
+      "terrain": "1",
+      "area": "[{\"经度\":\"106.105957\",\"纬度\":\"36.847758\"}]",
+      "id": "C-DaVJI"
+    },
+    {
+      "terrain": "1",
+      "area": "[{\"经度\":\"114.587402\",\"纬度\":\"32.067447\"}]",
+      "id": "Ozu1MAL"
+    },
+    {
+      "terrain": "1",
+      "area": "[{\"经度\":\"112.521973\",\"纬度\":\"32.516710\"}]",
+      "id": "Pyh2CVO"
+    },
+    {
+      "terrain": "1",
+      "area": "[{\"经度\":\"108.654785\",\"纬度\":\"33.950195\"}]",
+      "id": "7N5oSgc"
+    }
+  ],
+  "drill": [
+    {
+      "status": "2",
+      "msg": "7",
+      "data": "2025-01-03T 14:10:00",
+      "id": "5500"
+    },
+    {
+      "status": "0",
+      "msg": "7",
+      "data": "2025-01-03T 14:10:00",
+      "id": "2349"
+    }
+  ],
+  "surroundings": [
+    {
+      "id": "1",
+      "surroundingsName": "场景1",
+      "area": "null"
+    },
+    {
+      "id": "c005",
+      "terrain": "1",
+      "area": "[{\"经度\":\"105.007324\",\"纬度\":\"36.553775\"}]"
+    },
+    {
+      "id": "3c25",
+      "terrain": "2",
+      "area": "[{\"经度\":\"110.104980\",\"纬度\":\"32.833443\"}]"
+    },
+    {
+      "terrain": "1",
+      "area": "[{\"经度\":\"113.115234\",\"纬度\":\"33.431441\"}]",
+      "id": "JGdRnNO"
+    },
+    {
+      "terrain": "3",
+      "area": "[{\"经度\":\"121.728516\",\"纬度\":\"28.806174\"}]",
+      "id": "GZ-zTiM"
+    },
+    {
+      "terrain": "2",
+      "area": "[{\"经度\":\"106.391602\",\"纬度\":\"33.174342\"}]",
+      "id": "ESuu-QL"
+    },
+    {
+      "terrain": "1",
+      "area": "[{\"经度\":\"111.203613\",\"纬度\":\"29.649869\"}]",
+      "id": "-V54tHB"
+    },
+    {
+      "terrain": "1",
+      "area": "[{\"经度\":\"110.236816\",\"纬度\":\"32.091883\"}]",
+      "id": "fch_JZY"
+    },
+    {
+      "terrain": "1",
+      "area": "[{\"经度\":\"121.360474\",\"纬度\":\"24.554618\"}]",
+      "id": "5lJ8uJG"
+    },
+    {
+      "terrain": "1",
+      "area": "[{\"经度\":\"109.621582\",\"纬度\":\"32.624340\"}]",
+      "id": "fqun6_e"
+    },
+    {
+      "terrain": "1",
+      "area": "[{\"经度\":\"106.413574\",\"纬度\":\"34.419372\"}]",
+      "id": "iJaHEly"
+    },
+    {
+      "terrain": "1",
+      "area": "[{\"经度\":\"105.314941\",\"纬度\":\"35.678494\"}]",
+      "id": "Ox8Oqwp"
+    },
+    {
+      "terrain": "2",
+      "area": "[{\"经度\":\"109.797363\",\"纬度\":\"33.544828\"}]",
+      "id": "6wbDVup"
+    },
+    {
+      "terrain": "1",
+      "area": "[{\"经度\":\"107.028809\",\"纬度\":\"33.764307\"}]",
+      "id": "gm5O72C"
+    },
+    {
+      "terrain": "2",
+      "area": "[{\"经度\":\"121.451111\",\"纬度\":\"24.812135\"}]",
+      "id": "ORRx1_m"
+    },
+    {
+      "terrain": "1",
+      "area": "[{\"经度\":\"111.467285\",\"纬度\":\"33.434879\"}]",
+      "id": "YWHghA4"
+    }
+  ],
+  "task": [
+    {
+      "id": "7",
+      "taskName": "任务打算",
+      "taskPurpose": "演练",
+      "taskFrom": "下级",
+      "isCreateByTemplate": "0",
+      "isTemplateData": "0",
+      "type": "2,4,1",
+      "equipment": "2,4,1",
+      "startTime": "2025-01-03T 14:10:00",
+      "endTime": "2025-01-03T 14:30:00",
+      "remasks": "无",
+      "publishStatus": "0",
+      "surroundingsId": "-1",
+      "createUser": "1",
+      "createTime": "2025-03-04T 11:20:00",
+      "updateUser": "1",
+      "updateTime": "2025-03-06T 12:40:31",
+      "terrain": "null",
+      "weather": "3",
+      "seaState": "2",
+      "area": "null",
+      "drillId": "null",
+      "dirllStatus": "null"
+    },
+    {
+      "id": "8",
+      "taskName": "任务8",
+      "taskPurpose": "演练",
+      "taskFrom": "下级",
+      "isCreateByTemplate": "0",
+      "isTemplateData": "0",
+      "type": "2,4,1",
+      "equipment": "2,4",
+      "startTime": "2025-01-03T 14:10:00",
+      "endTime": "2025-01-03T 14:30:00",
+      "remasks": "无",
+      "publishStatus": "0",
+      "surroundingsId": "-1",
+      "createUser": "1",
+      "createTime": "2025-03-04T 11:20:00",
+      "updateUser": "1",
+      "updateTime": "2025-03-06T 12:40:31",
+      "terrain": "null",
+      "weather": "3",
+      "seaState": "2",
+      "area": "null",
+      "drillId": "null",
+      "dirllStatus": "null"
+    },
+    {
+      "id": "9",
+      "taskName": "任务8",
+      "taskPurpose": "演练",
+      "taskFrom": "下级",
+      "isCreateByTemplate": "0",
+      "isTemplateData": "0",
+      "type": "2,4,1",
+      "equipment": "2,4",
+      "startTime": "2025-01-03T 14:10:00",
+      "endTime": "2025-01-03T 14:30:00",
+      "remasks": "无",
+      "publishStatus": "0",
+      "surroundingsId": "-1",
+      "createUser": "1",
+      "createTime": "2025-03-04T 11:20:00",
+      "updateUser": "1",
+      "updateTime": "2025-03-06T 12:40:31",
+      "terrain": "null",
+      "weather": "3",
+      "seaState": "2",
+      "area": "null",
+      "drillId": "null",
+      "dirllStatus": "null"
+    },
+    {
+      "id": "10",
+      "taskName": "任务8",
+      "taskPurpose": "演练",
+      "taskFrom": "下级",
+      "isCreateByTemplate": "0",
+      "isTemplateData": "0",
+      "type": "2,4,1",
+      "equipment": "2,4",
+      "startTime": "2025-01-03T 14:10:00",
+      "endTime": "2025-01-03T 14:30:00",
+      "remasks": "无",
+      "publishStatus": "0",
+      "surroundingsId": "-1",
+      "createUser": "1",
+      "createTime": "2025-03-04T 11:20:00",
+      "updateUser": "1",
+      "updateTime": "2025-03-06T 12:40:31",
+      "terrain": "null",
+      "weather": "3",
+      "seaState": "2",
+      "area": "null",
+      "drillId": "null",
+      "dirllStatus": "null"
+    },
+    {
+      "id": "11",
+      "taskName": "大苏打",
+      "taskPurpose": "",
+      "terrain": "",
+      "weather": "null",
+      "seaState": "null",
+      "isCreateByTemplate": "1",
+      "type": "",
+      "equipment": "",
+      "area": "null",
+      "remasks": "null"
+    },
+    {
+      "taskName": "打算",
+      "taskPurpose": "",
+      "terrain": "1",
+      "weather": "1",
+      "seaState": "2",
+      "isCreateByTemplate": "1",
+      "area": "[{\"经度\":\"116.397428\",\"纬度\":\"39.90923\"},{\"经度\":\"116.406286\",\"纬度\":\"39.90458\"},{\"经度\":\"116.412535\",\"纬度\":\"39.903355\"}]",
+      "remasks": "null",
+      "type": "3,4,6",
+      "equipment": "3,4,6",
+      "id": "R4kNtKb"
+    }
+  ],
+  "template": [
+    {
+      "id": "1",
+      "taskName": null,
+      "taskPurpose": null,
+      "taskFrom": null,
+      "isCreateByTemplate": null,
+      "isTemplateData": null,
+      "type": "3,4,6",
+      "equipment": "3,4,6",
+      "startTime": null,
+      "endTime": null,
+      "remasks": "null",
+      "publishStatus": null,
+      "surroundingsId": "0",
+      "createUser": "1",
+      "createTime": "2025-03-02T 12:00:00",
+      "updateUser": "1",
+      "updateTime": "2025-03-06T 12:00:43",
+      "terrain": "1",
+      "weather": "1",
+      "seaState": "2",
+      "area": "[{\"经度\":\"116.397428\",\"纬度\":\"39.90923\"},{\"经度\":\"116.406286\",\"纬度\":\"39.90458\"},{\"经度\":\"116.412535\",\"纬度\":\"39.903355\"}]",
+      "drillId": "null",
+      "dirllStatus": "null"
+    }
+  ],
+  "task_drillListNoPage": [
+    {
+      "id": "8",
+      "taskName": "任务8",
+      "taskPurpose": "演练",
+      "taskFrom": "下级",
+      "isCreateByTemplate": "0",
+      "isTemplateData": "0",
+      "type": "2,4,1,3,6,7,5",
+      "equipment": "2,4,1,3,6,7,5",
+      "startTime": "2025-01-03T 14:10:00",
+      "endTime": "2025-01-03T 14:30:00",
+      "remasks": "无",
+      "status": "1",
+      "surroundingsId": "-1",
+      "createUser": "1",
+      "createTime": "2025-03-04T 11:20:00",
+      "updateUser": "1",
+      "updateTime": "2025-03-06T 12:40:31",
+      "terrain": "null",
+      "weather": "3",
+      "seaState": "2",
+      "area": "null",
+      "drillId": "",
+      "dirllStatus": ""
+    },
+    {
+      "id": "7",
+      "taskName": "任务8",
+      "taskPurpose": "演练",
+      "taskFrom": "下级",
+      "isCreateByTemplate": "0",
+      "isTemplateData": "0",
+      "type": "2,4,1",
+      "equipment": "2,4",
+      "startTime": "2025-01-03T 14:10:00",
+      "endTime": "2025-01-03T 14:30:00",
+      "remasks": "无",
+      "status": "1",
+      "surroundingsId": "-1",
+      "createUser": "1",
+      "createTime": "2025-03-04T 11:20:00",
+      "updateUser": "1",
+      "updateTime": "2025-03-06T 12:40:31",
+      "terrain": "null",
+      "weather": "3",
+      "seaState": "2",
+      "area": "null",
+      "drillId": "null",
+      "dirllStatus": "null"
+    },
+    {
+      "id": "6",
+      "taskName": "任务8",
+      "taskPurpose": "演练",
+      "taskFrom": "下级",
+      "isCreateByTemplate": "0",
+      "isTemplateData": "0",
+      "type": "2,4,1",
+      "equipment": "2,4",
+      "startTime": "2025-01-03T 14:10:00",
+      "endTime": "2025-01-03T 14:30:00",
+      "remasks": "无",
+      "status": "1",
+      "surroundingsId": "-1",
+      "createUser": "1",
+      "createTime": "2025-03-04T 11:20:00",
+      "updateUser": "1",
+      "updateTime": "2025-03-06T 12:40:31",
+      "terrain": "null",
+      "weather": "3",
+      "seaState": "2",
+      "area": "null",
+      "drillId": "null",
+      "dirllStatus": "null"
+    }
+  ],
+  "drillingOnlineStatus": {
+    "data": {
+      "PZZKXT": {
+        "第一层的撒旦": false,
+        "第二层的撒旦": true,
+        "第三层的撒旦": false,
+        "第四层的撒旦": false,
+        "第五层的撒旦": false,
+        "第六层的撒旦": false
+      },
+      "SYWRMNXT": {
+        "第一层的撒旦": false,
+        "第二层的撒旦": false,
+        "第三层的撒旦": false,
+        "第四层的撒旦": false
+      },
+      "WRJMNXT": {
+        "第一层的撒旦": false,
+        "第二层的撒旦": true,
+        "第三层的撒旦": false,
+        "第四层的撒旦": false,
+        "第五层的撒旦": false,
+        "第六层的撒旦": false,
+        "第七层的撒旦": false,
+        "第八层的撒旦": false,
+        "第九层的撒旦": false,
+        "第十层的撒旦": false,
+        "第十一层的撒旦": false,
+        "第十二层的撒旦": false
+      },
+      "DMWRMNXT": {
+        "第一层": false,
+        "第六层": false
+      },
+      "XSZDHJPZXT": {
+        "第六层": false
+      },
+      "LQPZDPZXT": {
+        "第一层": false
+      }
+    }
+  },
+  "task": [
+    {
+      "id": "t1",
+      "taskName": "测试任务A",
+      "taskPurpose": "验证通信",
+      "terrain": "1",
+      "weather": "1",
+      "seaState": "2",
+      "area": "[{\"经度\":\"113.137207\",\"纬度\":\"35.033370\"}]",
+      "type": "1,2",
+      "equipment": "1,2",
+      "isCreateByTemplate": "0",
+      "remasks": "备注A",
+      "status": "0"
+    },
+    {
+      "id": "t2",
+      "taskName": "测试任务B",
+      "taskPurpose": "设备联调",
+      "terrain": "2",
+      "weather": "2",
+      "seaState": "3",
+      "area": "[{\"经度\":\"113.884277\",\"纬度\":\"30.565808\"}]",
+      "type": "3",
+      "equipment": "3",
+      "isCreateByTemplate": "0",
+      "remasks": "备注B",
+      "status": "0"
+    },
+    {
+      "id": "t3",
+      "taskName": "测试任务C",
+      "taskPurpose": "流程演练",
+      "terrain": "3",
+      "weather": "3",
+      "seaState": "1",
+      "area": "[{\"经度\":\"106.105957\",\"纬度\":\"36.847758\"}]",
+      "type": "1,3,5",
+      "equipment": "1,3,5",
+      "isCreateByTemplate": "0",
+      "remasks": "备注C",
+      "status": "0"
+    }
+  ]
+}
